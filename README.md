@@ -35,6 +35,7 @@ Before you begin, ensure you have the following ready:
 - **NPM** package manager
 - **MongoDB** cluster (can be a local DB or MongoDB Atlas)
 - **OpenAI API Key** (for resume analysis)
+- **Mistral AI API Key** (optional alternative for resume analysis)
 
 ## Getting Started
 
@@ -60,6 +61,7 @@ Add your specific configuration to `backend/.env`:
 ```env
 MONGO_URI=your_mongodb_connection_string
 OPENAI_API_KEY=your_openai_api_key
+MISTRAL_API_KEY=your_mistral_api_key
 ```
 
 ### 3. Running the Application

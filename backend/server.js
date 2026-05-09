@@ -5,20 +5,21 @@ import multer from 'multer';
 import { createRequire } from 'module';
 import dotenv from 'dotenv';
 import fs from 'fs';
-import Analysis from './backend/Models/Analysis.js';
-import User from './backend/Models/User.js';
+import Analysis from './Models/Analysis.js';
+import User from './Models/User.js';
 import pdf from 'pdf-parse/lib/pdf-parse.js';
 import OpenAI from 'openai';
 import crypto from 'crypto';
 
-dotenv.config({ path: './backend/.env' });
+dotenv.config({ path: './.env' });
 
 const hashPassword = (password) => {
   return crypto.createHash('sha256').update(password).digest('hex');
 };
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.MISTRAL_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: process.env.MISTRAL_API_KEY ? "https://api.mistral.ai/v1" : undefined,
 });
 
 const MONGO_URI = process.env.MONGO_URI;
@@ -106,7 +107,7 @@ Your task is to analyze the resume against the job description and output a JSON
 Ensure the output is strictly valid JSON.`;
 
     const chatCompletion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: process.env.MISTRAL_API_KEY ? 'mistral-large-latest' : 'gpt-4o-mini',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: `Job Description:\n${jd}\n\nResume Text:\n${resumeText}` }
