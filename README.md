@@ -84,7 +84,7 @@ Alternatively, to run them separately:
   npm run server
   ```
 
-*The frontend application will run on `http://localhost:5173` (Vite Default) and the backend API will be available on `http://localhost:5000`.*
+*The frontend application will run on `http://localhost:5173` (Vite Default) and the live backend API is hosted at `https://ai-resume-analyzer-65sa.onrender.com`.*
 
 ## Folder Structure
 

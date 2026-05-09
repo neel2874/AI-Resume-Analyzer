@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
-
 import { Upload, FileText, CheckCircle, AlertCircle, BarChart3, Clock, Sparkles, Trash2, LogOut } from 'lucide-react';
 import './App.css'; 
 
+// For production deployment, using the live Render URL
+const API_BASE_URL = window.location.hostname === 'localhost' 
+  ? '' 
+  : 'https://ai-resume-analyzer-65sa.onrender.com';
 
 const AIResumeAnalyzer = () => {
   const [file, setFile] = useState(null);
@@ -30,7 +33,7 @@ const AIResumeAnalyzer = () => {
     if (!authForm.email || !authForm.password) return;
     if (!isLoginView && !authForm.name) return;
 
-    const endpoint = isLoginView ? '/api/auth/login' : '/api/auth/register';
+    const endpoint = `${API_BASE_URL}/api/auth/${isLoginView ? 'login' : 'register'}`;
     
     try {
       const response = await fetch(endpoint, {
@@ -66,7 +69,7 @@ const AIResumeAnalyzer = () => {
   const fetchHistory = async () => {
     try {
       const emailQuery = user?.email ? `?email=${encodeURIComponent(user.email)}` : '';
-      const response = await fetch(`/api/history${emailQuery}`);
+      const response = await fetch(`${API_BASE_URL}/api/history${emailQuery}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -96,7 +99,7 @@ const AIResumeAnalyzer = () => {
     }
 
     try {
-      const response = await fetch('/api/analyze', {
+      const response = await fetch(`${API_BASE_URL}/api/analyze`, {
         method: 'POST',
         body: formData,
       });
@@ -126,7 +129,7 @@ const AIResumeAnalyzer = () => {
   const handleDeleteHistory = async (e, id) => {
     e.stopPropagation(); // prevent clicking the card underneath
     try {
-      const response = await fetch(`/api/history/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/history/${id}`, {
         method: 'DELETE',
       });
       if (response.ok) {
