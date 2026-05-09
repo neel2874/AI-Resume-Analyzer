@@ -226,6 +226,9 @@ const AIResumeAnalyzer = () => {
       </button>
     </header>
 
+    {/* Mobile Overlay */}
+    <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}></div>
+
     {/* Sidebar Navigation */}
     <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
       <div className="brand desktop-only">
