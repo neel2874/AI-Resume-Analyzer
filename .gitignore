@@ -9,7 +9,9 @@ Frontend/dist/
 # Environment
 .env
 .env.*
+! .env.example
 backend/.env
+! backend/.env.example
 
 # Local files
 uploads/
