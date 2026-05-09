@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Upload, FileText, CheckCircle, AlertCircle, BarChart3, Clock, Sparkles, Trash2, LogOut } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle, BarChart3, Clock, Sparkles, Trash2, LogOut, Menu, X } from 'lucide-react';
 import './App.css'; 
 
 // For production deployment, using the live Render URL
@@ -16,6 +16,7 @@ const AIResumeAnalyzer = () => {
   const [activeTab, setActiveTab] = useState('analyzer');
   const [history, setHistory] = useState([]);
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const [authForm, setAuthForm] = useState({ name: '', email: '', password: '' });
   const [isLoginView, setIsLoginView] = useState(true);
@@ -213,22 +214,33 @@ const AIResumeAnalyzer = () => {
   }
 
   return (
-  <div className="app-shell">
-    {/* Sidebar Navigation */}
-    <aside className="sidebar">
+  <div className={`app-shell ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+    {/* Mobile Header */}
+    <header className="mobile-header">
       <div className="brand">
+        <div className="logo-icon"><BarChart3 size={20} /></div>
+        <span className="brand-name">ResumeAI</span>
+      </div>
+      <button className="menu-toggle" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+        {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+    </header>
+
+    {/* Sidebar Navigation */}
+    <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+      <div className="brand desktop-only">
         <div className="logo-icon"><BarChart3 size={24} /></div>
         <span className="brand-name">ResumeAI</span>
       </div>
       <nav className="nav-menu">
         <button 
           className={`nav-item ${activeTab === 'analyzer' ? 'active' : ''}`} 
-          onClick={() => setActiveTab('analyzer')}>
+          onClick={() => { setActiveTab('analyzer'); setIsSidebarOpen(false); }}>
           <BarChart3 size={18} /> Analyzer
         </button>
         <button 
           className={`nav-item ${activeTab === 'history' ? 'active' : ''}`} 
-          onClick={() => { setActiveTab('history'); fetchHistory(); }}>
+          onClick={() => { setActiveTab('history'); fetchHistory(); setIsSidebarOpen(false); }}>
           <Clock size={18} /> History
         </button>
       </nav>
